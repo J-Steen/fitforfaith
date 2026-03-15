@@ -1,0 +1,36 @@
+# FitForFaith — Apache rewrite rules
+# All requests routed through index.php except static files
+
+Options -Indexes
+Options -MultiViews
+
+RewriteEngine On
+
+# --- Security headers ---
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# --- Deny access to sensitive directories ---
+RewriteRule ^config/ - [F,L]
+RewriteRule ^database/ - [F,L]
+RewriteRule ^storage/ - [F,L]
+RewriteRule ^src/ - [F,L]
+RewriteRule ^views/ - [F,L]
+RewriteRule ^cron/ - [F,L]
+
+# --- Allow direct access to static assets ---
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# --- Allow direct access to public/ folder ---
+RewriteCond %{REQUEST_URI} ^/public/
+RewriteRule ^ - [L]
+
+# --- Route everything else through index.php ---
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L,QSA]

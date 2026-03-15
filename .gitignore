@@ -1,0 +1,29 @@
+# ── Credentials — never commit these ──────────────────────────
+config/database.php
+config/mail.php
+config/strava.php
+config/payfast.php
+config/garmin.php
+config/fitbit.php
+config/polar.php
+config/suunto.php
+config/wahoo.php
+
+# ── Runtime storage ───────────────────────────────────────────
+storage/logs/*
+storage/cache/*
+storage/qrcodes/*
+!storage/logs/.gitkeep
+!storage/cache/.gitkeep
+!storage/qrcodes/.gitkeep
+
+# ── OS / editor noise ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# ── PHP ───────────────────────────────────────────────────────
+*.log
