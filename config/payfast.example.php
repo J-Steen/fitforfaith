@@ -1,7 +1,7 @@
 <?php
 // Copy to config/payfast.php and fill in your PayFast credentials.
 // https://developers.payfast.co.za/
-define('PAYFAST_SANDBOX',      false); // true for testing, false for live
+define('PAYFAST_SANDBOX',      false); // set to true only for testing
 define('PAYFAST_MERCHANT_ID',  getenv('PAYFAST_MERCHANT_ID')  ?: 'YOUR_MERCHANT_ID');
 define('PAYFAST_MERCHANT_KEY', getenv('PAYFAST_MERCHANT_KEY') ?: 'YOUR_MERCHANT_KEY');
 define('PAYFAST_PASSPHRASE',   getenv('PAYFAST_PASSPHRASE')   ?: 'YOUR_PASSPHRASE');
