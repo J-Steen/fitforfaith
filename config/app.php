@@ -9,7 +9,7 @@ define('APP_TAGLINE', 'Move Together. Raise Together.');
 define('APP_VERSION', '1.0.0');
 define('APP_ENV',     getenv('APP_ENV') ?: 'development'); // 'development' or 'production'
 define('APP_DEBUG',   APP_ENV === 'development');
-define('APP_URL',     rtrim(getenv('APP_URL') ?: 'https://gekbult.co.za', '/'));
+define('APP_URL',     rtrim(getenv('APP_URL') ?: 'http://localhost:8080', '/'));
 define('APP_TIMEZONE','Africa/Johannesburg');
 define('BASE_PATH',   dirname(__DIR__));
 
