@@ -85,3 +85,24 @@
     <p class="text-muted text-sm mt-2">Settings are cached for up to 10 minutes after saving.</p>
   </div>
 </form>
+
+<!-- Change Password -->
+<div class="card mt-4" style="max-width:480px;">
+  <h3 class="fw-bold mb-4"><i class="fa-solid fa-lock" style="color:var(--accent-purple);"></i> Change Admin Password</h3>
+  <form method="POST" action="<?= url('admin/change-password') ?>">
+    <?= csrf_field() ?>
+    <div class="form-group">
+      <label class="form-label">Current Password</label>
+      <input type="password" class="form-control" name="current_password" required autocomplete="current-password">
+    </div>
+    <div class="form-group">
+      <label class="form-label">New Password</label>
+      <input type="password" class="form-control" name="new_password" required minlength="8" autocomplete="new-password">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Confirm New Password</label>
+      <input type="password" class="form-control" name="confirm_password" required minlength="8" autocomplete="new-password">
+    </div>
+    <button type="submit" class="btn btn-primary">Update Password</button>
+  </form>
+</div>

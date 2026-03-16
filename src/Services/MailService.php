@@ -72,7 +72,14 @@ class MailService {
 
         $errno  = 0;
         $errstr = '';
-        $conn   = @fsockopen($dsn, $port, $errno, $errstr, 15);
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer'       => false,
+                'verify_peer_name'  => false,
+                'allow_self_signed' => true,
+            ],
+        ]);
+        $conn = @stream_socket_client($dsn, $errno, $errstr, 15, STREAM_CLIENT_CONNECT, $context);
         if (!$conn) {
             app_log("SMTP connect failed: {$errstr} ({$errno})", 'ERROR');
             return false;
@@ -89,7 +96,7 @@ class MailService {
             if ($encryption === 'tls') {
                 self::smtpSend($conn, "STARTTLS");
                 self::smtpExpect($conn, 220);
-                stream_socket_enable_crypto($conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+                stream_socket_enable_crypto($conn, true, STREAM_CRYPTO_METHOD_SSLv23_CLIENT);
                 self::smtpSend($conn, "EHLO " . gethostname());
                 self::smtpReadLines($conn);
             }
