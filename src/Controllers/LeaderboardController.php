@@ -14,6 +14,10 @@ class LeaderboardController {
         $churches     = Cache::remember('leaderboard_church', CACHE_LEADERBOARD,
             fn() => Leaderboard::getChurch(50)
         );
+        $runners  = Cache::remember('leaderboard_run',  CACHE_LEADERBOARD, fn() => Leaderboard::getByActivity('run'));
+        $walkers  = Cache::remember('leaderboard_walk', CACHE_LEADERBOARD, fn() => Leaderboard::getByActivity('walk'));
+        $cyclists = Cache::remember('leaderboard_ride', CACHE_LEADERBOARD, fn() => Leaderboard::getByActivity('ride'));
+
         $leadingChurch = Leaderboard::getLeadingChurch();
         $stats         = Leaderboard::getStats();
 

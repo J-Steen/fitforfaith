@@ -33,6 +33,31 @@ class Leaderboard {
     }
 
     /**
+     * Get top users ranked by a specific activity type (run/walk/ride).
+     */
+    public static function getByActivity(string $type, int $limit = 100): array {
+        $col = 'pc.run_points';
+        if ($type === 'walk') $col = 'pc.walk_points';
+        if ($type === 'ride') $col = 'pc.ride_points';
+
+        return Database::fetchAll(
+            "SELECT
+                u.id, u.first_name, u.last_name,
+                c.name AS church_name,
+                {$col} AS activity_points,
+                pc.activity_count
+             FROM points_cache pc
+             JOIN users u ON u.id = pc.user_id
+             LEFT JOIN churches c ON c.id = u.church_id
+             WHERE u.deleted_at IS NULL AND u.is_active = 1 AND u.role = 'user' AND u.is_paid = 1
+               AND {$col} > 0
+             ORDER BY {$col} DESC
+             LIMIT ?",
+            [$limit]
+        );
+    }
+
+    /**
      * Get top churches from church_points_cache.
      */
     public static function getChurch(int $limit = 50): array {
