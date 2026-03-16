@@ -68,6 +68,7 @@
               : '<span class="badge badge-red">Disabled</span>' ?></td>
             <td class="text-muted text-sm"><?= date('j M Y', strtotime($u['created_at'])) ?></td>
             <td style="white-space:nowrap;">
+              <a href="<?= url('admin/users/' . $u['id']) ?>" class="btn btn-secondary btn-sm">View</a>
               <a href="<?= url('admin/users/' . $u['id'] . '/edit') ?>" class="btn btn-secondary btn-sm">Edit</a>
               <form method="POST" action="<?= url('admin/users/' . $u['id'] . '/toggle-active') ?>" style="display:inline;"
                     onsubmit="return confirm('<?= $u['is_active'] ? 'Disable this user?' : 'Enable this user?' ?>')">

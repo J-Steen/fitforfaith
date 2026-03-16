@@ -25,6 +25,8 @@ class ActivitiesController {
         Auth::requireAdmin();
         Activity::flag((int)($params['id'] ?? 0));
         Session::flash('success', 'Activity flagged.');
+        $back = $_POST['_redirect'] ?? '';
+        if ($back) { header('Location: ' . $back); exit; }
         redirect('admin/activities');
     }
 
@@ -32,6 +34,8 @@ class ActivitiesController {
         Auth::requireAdmin();
         Activity::unflag((int)($params['id'] ?? 0));
         Session::flash('success', 'Activity unflagged.');
+        $back = $_POST['_redirect'] ?? '';
+        if ($back) { header('Location: ' . $back); exit; }
         redirect('admin/activities');
     }
 }

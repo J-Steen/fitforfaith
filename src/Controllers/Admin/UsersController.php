@@ -28,6 +28,21 @@ class UsersController {
         include VIEW_PATH . 'layout/admin_footer.php';
     }
 
+    public function show(array $params): void {
+        Auth::requireAdmin();
+        $user = User::findById((int)($params['id'] ?? 0));
+        if (!$user) { http_response_code(404); echo '404'; exit; }
+
+        $page       = max(1, (int)($_GET['page'] ?? 1));
+        $activities = Activity::getAllPaginated($page, 30, ['user_id' => (int)$user['id']]);
+        $totals     = Activity::getTotalsForUser((int)$user['id']);
+
+        $pageTitle = h($user['first_name'] . ' ' . $user['last_name']) . ' — Admin';
+        include VIEW_PATH . 'layout/admin_base.php';
+        include VIEW_PATH . 'admin/users/show.php';
+        include VIEW_PATH . 'layout/admin_footer.php';
+    }
+
     public function edit(array $params): void {
         Auth::requireAdmin();
         $user = User::findById((int)($params['id'] ?? 0));

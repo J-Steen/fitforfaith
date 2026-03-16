@@ -90,6 +90,7 @@ $router->get('/register/:token', [AuthController::class, 'showRegister']); // QR
 $router->get('/admin',           [AdminController::class,    'dashboard'],  ['admin']);
 
 $router->get('/admin/users',           [UsersController::class, 'index'],   ['admin']);
+$router->get('/admin/users/:id',       [UsersController::class, 'show'],    ['admin']);
 $router->get('/admin/users/:id/edit',  [UsersController::class, 'edit'],    ['admin']);
 $router->post('/admin/users/:id/update', [UsersController::class, 'update'], ['admin']);
 $router->post('/admin/users/:id/delete',        [UsersController::class, 'delete'],       ['admin']);
