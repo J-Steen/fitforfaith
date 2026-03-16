@@ -64,11 +64,11 @@ class MailService {
         $fromName   = MAIL_FROM_NAME;
 
         // Build connection string
-        $dsn = match ($encryption) {
-            'ssl'  => "ssl://{$host}:{$port}",
-            'tls'  => "tcp://{$host}:{$port}",
-            default => "tcp://{$host}:{$port}",
-        };
+        if ($encryption === 'ssl') {
+            $dsn = "ssl://{$host}:{$port}";
+        } else {
+            $dsn = "tcp://{$host}:{$port}";
+        }
 
         $errno  = 0;
         $errstr = '';
