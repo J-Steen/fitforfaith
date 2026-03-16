@@ -139,6 +139,13 @@
     </div>
 
     <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; border-top:1px solid rgba(255,255,255,.08); padding-top:16px;">
+      <form method="POST" action="<?= url('admin/users/' . $user['id'] . '/strava-sync') ?>"
+            onsubmit="this.querySelector('button').disabled=true; this.querySelector('button').textContent='Syncing…';">
+        <?= csrf_field() ?>
+        <button type="submit" class="btn btn-primary btn-sm">
+          <i class="fa-solid fa-rotate"></i> Sync All Activities
+        </button>
+      </form>
       <form method="POST" action="<?= url('admin/users/' . $user['id'] . '/strava-disconnect') ?>">
         <?= csrf_field() ?>
         <button type="submit" class="btn btn-danger btn-sm"
@@ -146,7 +153,7 @@
           <i class="fa-solid fa-link-slash"></i> Disconnect Strava
         </button>
       </form>
-      <span class="text-xs text-muted">Disconnecting clears their OAuth tokens. The user will need to reconnect.</span>
+      <span class="text-xs text-muted">Sync imports all historical activities. Disconnect clears OAuth tokens — user must reconnect.</span>
     </div>
 
   <?php else: ?>

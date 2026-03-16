@@ -95,6 +95,7 @@ $router->post('/admin/users/:id/update', [UsersController::class, 'update'], ['a
 $router->post('/admin/users/:id/delete',        [UsersController::class, 'delete'],       ['admin']);
 $router->post('/admin/users/:id/toggle-active',      [UsersController::class, 'toggleActive'],      ['admin']);
 $router->post('/admin/users/:id/strava-disconnect', [UsersController::class, 'stravaDisconnect'], ['admin']);
+$router->post('/admin/users/:id/strava-sync',       [UsersController::class, 'stravaSync'],       ['admin']);
 
 $router->get('/admin/churches',             [ChurchesController::class, 'index'],  ['admin']);
 $router->get('/admin/churches/new',         [ChurchesController::class, 'create'], ['admin']);

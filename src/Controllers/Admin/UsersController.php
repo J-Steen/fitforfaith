@@ -6,6 +6,10 @@ use App\Core\Database;
 use App\Core\Session;
 use App\Models\User;
 use App\Models\Church;
+use App\Models\Activity;
+use App\Services\StravaService;
+use App\Services\PointsService;
+use App\Services\LeaderboardCacheService;
 
 class UsersController {
     public function index(array $params): void {
@@ -44,6 +48,64 @@ class UsersController {
         include VIEW_PATH . 'layout/admin_base.php';
         include VIEW_PATH . 'admin/users/edit.php';
         include VIEW_PATH . 'layout/admin_footer.php';
+    }
+
+    public function stravaSync(array $params): void {
+        Auth::requireAdmin();
+        $id   = (int)($params['id'] ?? 0);
+        $user = User::findById($id);
+        if (!$user) redirect('admin/users');
+
+        if (!$user['strava_athlete_id']) {
+            Session::flash('error', 'This user has no Strava connection.');
+            redirect('admin/users/' . $id . '/edit');
+        }
+
+        try {
+            $accessToken = StravaService::ensureFreshToken($id);
+
+            // Fetch all activities (from beginning of time)
+            $activities = StravaService::fetchAllActivitiesSince($accessToken, 0);
+
+            $scoredTypes = ['Run', 'Walk', 'Ride', 'VirtualRide', 'Hike'];
+            $imported    = 0;
+            $churchId    = $user['church_id'] ? (int)$user['church_id'] : null;
+
+            foreach ($activities as $act) {
+                if (!in_array($act['type'] ?? '', $scoredTypes, true)) continue;
+
+                $points = PointsService::calculateFinal(
+                    $id,
+                    $act['type'],
+                    (float)($act['distance'] ?? 0),
+                    $act['start_date_local'] ?? $act['start_date'] ?? date('Y-m-d H:i:s')
+                );
+
+                Activity::upsert([
+                    'user_id'         => $id,
+                    'church_id'       => $churchId,
+                    'strava_id'       => (int)$act['id'],
+                    'activity_type'   => $act['type'],
+                    'name'            => $act['name'] ?? null,
+                    'distance_meters' => (float)($act['distance'] ?? 0),
+                    'moving_time_sec' => (int)($act['moving_time'] ?? 0),
+                    'start_date'      => date('Y-m-d H:i:s', strtotime($act['start_date_local'] ?? $act['start_date'] ?? 'now')),
+                    'points_awarded'  => $points,
+                    'raw_payload'     => json_encode($act),
+                ]);
+                $imported++;
+            }
+
+            LeaderboardCacheService::rebuildUser($id);
+
+            Session::flash('success', 'Synced ' . $imported . ' activities for ' . $user['first_name'] . ' ' . $user['last_name'] . '.');
+
+        } catch (\Throwable $e) {
+            app_log('Admin Strava sync error for user ' . $id . ': ' . $e->getMessage(), 'ERROR');
+            Session::flash('error', 'Sync failed: ' . $e->getMessage());
+        }
+
+        redirect('admin/users/' . $id . '/edit');
     }
 
     public function stravaDisconnect(array $params): void {
