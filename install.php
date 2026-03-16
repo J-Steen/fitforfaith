@@ -65,8 +65,8 @@ foreach ($statements as $stmt) {
         $executed++;
     } catch (PDOException $e) {
         // Ignore "already exists" errors
-        if (!str_contains($e->getMessage(), 'already exists') &&
-            !str_contains($e->getMessage(), 'Duplicate entry')) {
+        if (!strpos($e->getMessage(), 'already exists') !== false &&
+            !strpos($e->getMessage(), 'Duplicate entry') !== false) {
             $errors[] = $e->getMessage() . "\nSQL: " . substr($stmt, 0, 100);
         }
     }

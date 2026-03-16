@@ -36,25 +36,25 @@
       </div>
       <div class="sidebar-section">
         <div class="sidebar-section-label">People</div>
-        <a href="<?= url('admin/users') ?>" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'],'admin/users') ? 'active' : '' ?>">
+        <a href="<?= url('admin/users') ?>" class="sidebar-link <?= strpos($_SERVER['REQUEST_URI'],'admin/users') !== false ? 'active' : '' ?>">
           <span class="icon"><i class="fa-solid fa-users"></i></span> Users
         </a>
-        <a href="<?= url('admin/churches') ?>" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'],'admin/churches') ? 'active' : '' ?>">
+        <a href="<?= url('admin/churches') ?>" class="sidebar-link <?= strpos($_SERVER['REQUEST_URI'],'admin/churches') !== false ? 'active' : '' ?>">
           <span class="icon"><i class="fa-solid fa-church"></i></span> Churches
         </a>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-section-label">Data</div>
-        <a href="<?= url('admin/activities') ?>" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'],'admin/activities') ? 'active' : '' ?>">
+        <a href="<?= url('admin/activities') ?>" class="sidebar-link <?= strpos($_SERVER['REQUEST_URI'],'admin/activities') !== false ? 'active' : '' ?>">
           <span class="icon"><i class="fa-solid fa-person-running"></i></span> Activities
         </a>
-        <a href="<?= url('admin/donations') ?>" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'],'admin/donations') ? 'active' : '' ?>">
+        <a href="<?= url('admin/donations') ?>" class="sidebar-link <?= strpos($_SERVER['REQUEST_URI'],'admin/donations') !== false ? 'active' : '' ?>">
           <span class="icon"><i class="fa-solid fa-credit-card"></i></span> Payments
         </a>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-section-label">Config</div>
-        <a href="<?= url('admin/settings') ?>" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'],'admin/settings') ? 'active' : '' ?>">
+        <a href="<?= url('admin/settings') ?>" class="sidebar-link <?= strpos($_SERVER['REQUEST_URI'],'admin/settings') !== false ? 'active' : '' ?>">
           <span class="icon"><i class="fa-solid fa-gear"></i></span> Settings
         </a>
       </div>

@@ -33,9 +33,9 @@
       </button>
 
       <ul class="nav-links" id="navLinks" role="list">
-        <li><a href="<?= url('leaderboard') ?>" class="<?= str_contains($_SERVER['REQUEST_URI'], 'leaderboard') ? 'active' : '' ?>"><?= t('nav.leaderboard') ?></a></li>
+        <li><a href="<?= url('leaderboard') ?>" class="<?= strpos($_SERVER['REQUEST_URI'], 'leaderboard') !== false ? 'active' : '' ?>"><?= t('nav.leaderboard') ?></a></li>
         <?php if (auth_check()): ?>
-          <li><a href="<?= url('dashboard') ?>" class="<?= str_contains($_SERVER['REQUEST_URI'], 'dashboard') ? 'active' : '' ?>"><?= t('nav.dashboard') ?></a></li>
+          <li><a href="<?= url('dashboard') ?>" class="<?= strpos($_SERVER['REQUEST_URI'], 'dashboard') !== false ? 'active' : '' ?>"><?= t('nav.dashboard') ?></a></li>
           <li><a href="<?= url('profile/edit') ?>"><?= t('nav.profile') ?></a></li>
           <li><a href="<?= url('logout') ?>"><?= t('nav.logout') ?></a></li>
         <?php else: ?>
