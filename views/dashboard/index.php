@@ -46,6 +46,7 @@ $hasStrava = !empty($user['strava_athlete_id']);
     <div style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap;">
       <?php if (!$isPaid): ?>
         <a href="<?= url('donate') ?>" class="btn btn-primary btn-sm"><?= t('dash.pay_fee') ?></a>
+        <div class="text-xs text-muted mt-1">Pay to appear on the leaderboard</div>
       <?php endif; ?>
       <?php if (!$hasStrava): ?>
         <a href="<?= url('strava/connect-page') ?>" class="btn btn-sm" style="background:#FC4C02; color:#fff;"><?= t('dash.connect_strava') ?></a>

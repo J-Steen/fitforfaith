@@ -60,9 +60,12 @@ class LeaderboardCacheService {
                 );
             }
 
-            // Step 5: Assign individual ranks (PHP-side, avoids MySQL reserved word issues)
+            // Step 5: Assign individual ranks — paid users only
             $ranked = Database::fetchAll(
-                'SELECT user_id FROM points_cache WHERE total_points > 0 ORDER BY total_points DESC'
+                'SELECT pc.user_id FROM points_cache pc
+                 JOIN users u ON u.id = pc.user_id
+                 WHERE pc.total_points > 0 AND u.is_paid = 1 AND u.is_active = 1 AND u.deleted_at IS NULL AND u.role = \'user\'
+                 ORDER BY pc.total_points DESC'
             );
             Database::execute('UPDATE points_cache SET rank_individual = NULL');
             foreach ($ranked as $pos => $row) {
@@ -79,7 +82,7 @@ class LeaderboardCacheService {
                         COUNT(u.id) AS member_count
                  FROM users u
                  LEFT JOIN points_cache pc ON pc.user_id = u.id
-                 WHERE u.church_id IS NOT NULL AND u.is_active = 1 AND u.deleted_at IS NULL AND u.role = \'user\'
+                 WHERE u.church_id IS NOT NULL AND u.is_active = 1 AND u.is_paid = 1 AND u.deleted_at IS NULL AND u.role = \'user\'
                  GROUP BY u.church_id'
             );
 
@@ -172,7 +175,7 @@ class LeaderboardCacheService {
             'SELECT SUM(COALESCE(pc.total_points,0)) AS total_points, COUNT(u.id) AS member_count
              FROM users u
              LEFT JOIN points_cache pc ON pc.user_id = u.id
-             WHERE u.church_id = ? AND u.is_active = 1 AND u.deleted_at IS NULL AND u.role = \'user\'',
+             WHERE u.church_id = ? AND u.is_active = 1 AND u.is_paid = 1 AND u.deleted_at IS NULL AND u.role = \'user\'',
             [$churchId]
         );
         if (!$row) return;

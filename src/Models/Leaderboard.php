@@ -18,7 +18,7 @@ class Leaderboard {
              FROM points_cache pc
              JOIN users u ON u.id = pc.user_id
              LEFT JOIN churches c ON c.id = u.church_id
-             WHERE u.deleted_at IS NULL AND u.is_active = 1 AND u.role = \'user\' AND pc.total_points > 0
+             WHERE u.deleted_at IS NULL AND u.is_active = 1 AND u.role = \'user\' AND u.is_paid = 1 AND pc.total_points > 0
              ORDER BY pc.total_points DESC, u.first_name ASC
              LIMIT ? OFFSET ?',
             [$limit, $offset]
