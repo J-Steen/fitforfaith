@@ -12,18 +12,18 @@ class Router {
     /**
      * Register a GET route.
      */
-    public function get(string $pattern, array|string $handler, array $middleware = []): void {
+    public function get(string $pattern, $handler, array $middleware = []): void {
         $this->addRoute('GET', $pattern, $handler, $middleware);
     }
 
     /**
      * Register a POST route.
      */
-    public function post(string $pattern, array|string $handler, array $middleware = []): void {
+    public function post(string $pattern, $handler, array $middleware = []): void {
         $this->addRoute('POST', $pattern, $handler, $middleware);
     }
 
-    private function addRoute(string $method, string $pattern, array|string $handler, array $middleware): void {
+    private function addRoute(string $method, string $pattern, $handler, array $middleware): void {
         $this->routes[] = [
             'method'     => $method,
             'pattern'    => $pattern,
@@ -91,15 +91,11 @@ class Router {
     }
 
     private function runMiddleware(string $mw): void {
-        match($mw) {
-            'auth'     => Auth::require(),
-            'admin'    => Auth::requireAdmin(),
-            'no-csrf'  => null, // handled in dispatch
-            default    => null,
-        };
+        if ($mw === 'auth')  { Auth::require(); }
+        elseif ($mw === 'admin') { Auth::requireAdmin(); }
     }
 
-    private function callHandler(array|string $handler, array $params): void {
+    private function callHandler($handler, array $params): void {
         if (is_string($handler)) {
             [$class, $method] = explode('@', $handler);
         } else {
@@ -107,7 +103,7 @@ class Router {
         }
 
         // Support App\Controllers\ prefix
-        if (!str_contains($class, '\\')) {
+        if (strpos($class, '\\') === false) {
             $class = 'App\\Controllers\\' . $class;
         }
 

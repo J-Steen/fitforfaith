@@ -35,14 +35,14 @@ class PointsService {
         $km       = $distanceMeters / 1000;
         $type     = strtolower($activityType);
 
-        $pointsPerKm = match($type) {
-            'run'         => $rates['run'],
-            'walk'        => $rates['walk'],
-            'ride',
-            'virtualride' => $rates['ride'],
-            'hike'        => $rates['walk'], // same as walk
-            default       => 0,
-        };
+        switch ($type) {
+            case 'run':         $pointsPerKm = $rates['run'];  break;
+            case 'walk':        $pointsPerKm = $rates['walk']; break;
+            case 'ride':
+            case 'virtualride': $pointsPerKm = $rates['ride']; break;
+            case 'hike':        $pointsPerKm = $rates['walk']; break;
+            default:            $pointsPerKm = 0;
+        }
 
         return (int)round($pointsPerKm * $km);
     }

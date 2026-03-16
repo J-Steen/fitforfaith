@@ -79,7 +79,7 @@ class Database {
     /**
      * Fetch a single scalar value.
      */
-    public static function fetchScalar(string $sql, array $params = []): mixed {
+    public static function fetchScalar(string $sql, array $params = []) {
         $row = self::query($sql, $params)->fetch(PDO::FETCH_NUM);
         return $row ? $row[0] : null;
     }

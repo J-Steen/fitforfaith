@@ -16,7 +16,7 @@ class Cache {
         return self::dir() . '/' . md5($key) . '.cache';
     }
 
-    public static function get(string $key): mixed {
+    public static function get(string $key) {
         $path = self::path($key);
         if (!file_exists($path)) return null;
 
@@ -38,7 +38,7 @@ class Cache {
     /**
      * @param int $ttl Seconds until expiry. 0 = forever.
      */
-    public static function set(string $key, mixed $value, int $ttl = 300): void {
+    public static function set(string $key, $value, int $ttl = 300): void {
         $expiry  = $ttl > 0 ? (time() + $ttl) : 0;
         $content = $expiry . "\n" . serialize($value);
         file_put_contents(self::path($key), $content, LOCK_EX);
@@ -71,7 +71,7 @@ class Cache {
     /**
      * Get or set — helper for "remember" pattern.
      */
-    public static function remember(string $key, int $ttl, callable $callback): mixed {
+    public static function remember(string $key, int $ttl, callable $callback) {
         $value = self::get($key);
         if ($value !== null) return $value;
         $value = $callback();

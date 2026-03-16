@@ -6,15 +6,15 @@
 /**
  * Escape HTML output — use in every view.
  */
-function h(mixed $value): string {
+function h($value): string {
     return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 /**
  * Redirect to URL and exit.
  */
-function redirect(string $path, int $code = 302): never {
-    $url = str_starts_with($path, 'http') ? $path : APP_URL . '/' . ltrim($path, '/');
+function redirect(string $path, int $code = 302): void {
+    $url = strncmp($path, 'http', 4) === 0 ? $path : APP_URL . '/' . ltrim($path, '/');
     header('Location: ' . $url, true, $code);
     exit;
 }
@@ -78,30 +78,30 @@ function ordinal(int $n): string {
  * Activity type → human-readable label.
  */
 function activity_label(string $type): string {
-    return match(strtolower($type)) {
-        'run'        => 'Run',
-        'walk'       => 'Walk',
-        'ride'       => 'Cycling',
-        'virtualride'=> 'Virtual Ride',
-        'hike'       => 'Hike',
-        'workout'    => 'Workout',
-        default      => ucfirst($type),
-    };
+    switch (strtolower($type)) {
+        case 'run':         return 'Run';
+        case 'walk':        return 'Walk';
+        case 'ride':        return 'Cycling';
+        case 'virtualride': return 'Virtual Ride';
+        case 'hike':        return 'Hike';
+        case 'workout':     return 'Workout';
+        default:            return ucfirst($type);
+    }
 }
 
 /**
  * Activity type → Font Awesome icon HTML.
  */
 function activity_icon(string $type): string {
-    return match(strtolower($type)) {
-        'run'         => '<i class="fa-solid fa-person-running"></i>',
-        'walk'        => '<i class="fa-solid fa-person-walking"></i>',
-        'ride',
-        'virtualride' => '<i class="fa-solid fa-person-biking"></i>',
-        'hike'        => '<i class="fa-solid fa-person-hiking"></i>',
-        'workout'     => '<i class="fa-solid fa-dumbbell"></i>',
-        default       => '<i class="fa-solid fa-bolt"></i>',
-    };
+    switch (strtolower($type)) {
+        case 'run':         return '<i class="fa-solid fa-person-running"></i>';
+        case 'walk':        return '<i class="fa-solid fa-person-walking"></i>';
+        case 'ride':
+        case 'virtualride': return '<i class="fa-solid fa-person-biking"></i>';
+        case 'hike':        return '<i class="fa-solid fa-person-hiking"></i>';
+        case 'workout':     return '<i class="fa-solid fa-dumbbell"></i>';
+        default:            return '<i class="fa-solid fa-bolt"></i>';
+    }
 }
 
 /**
@@ -177,9 +177,9 @@ function csrf_field(): string {
  */
 function time_ago(string $datetime): string {
     $diff = time() - strtotime($datetime);
-    if ($diff < 60)    return 'just now';
-    if ($diff < 3600)  return (int)($diff/60) . ' min ago';
-    if ($diff < 86400) return (int)($diff/3600) . ' hrs ago';
+    if ($diff < 60)     return 'just now';
+    if ($diff < 3600)   return (int)($diff/60) . ' min ago';
+    if ($diff < 86400)  return (int)($diff/3600) . ' hrs ago';
     if ($diff < 604800) return (int)($diff/86400) . ' days ago';
     return date('j M Y', strtotime($datetime));
 }
@@ -188,12 +188,12 @@ function time_ago(string $datetime): string {
  * Medal icon for rank.
  */
 function rank_medal(int $rank): string {
-    return match($rank) {
-        1 => '<i class="fa-solid fa-medal" style="color:#FFD700"></i>',
-        2 => '<i class="fa-solid fa-medal" style="color:#C0C0C0"></i>',
-        3 => '<i class="fa-solid fa-medal" style="color:#CD7F32"></i>',
-        default => '#' . $rank,
-    };
+    switch ($rank) {
+        case 1:  return '<i class="fa-solid fa-medal" style="color:#FFD700"></i>';
+        case 2:  return '<i class="fa-solid fa-medal" style="color:#C0C0C0"></i>';
+        case 3:  return '<i class="fa-solid fa-medal" style="color:#CD7F32"></i>';
+        default: return '#' . $rank;
+    }
 }
 
 /**

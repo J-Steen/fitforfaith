@@ -36,11 +36,11 @@ class Session {
         }
     }
 
-    public static function set(string $key, mixed $value): void {
+    public static function set(string $key, $value): void {
         $_SESSION[$key] = $value;
     }
 
-    public static function get(string $key, mixed $default = null): mixed {
+    public static function get(string $key, $default = null) {
         return $_SESSION[$key] ?? $default;
     }
 
@@ -52,11 +52,11 @@ class Session {
         unset($_SESSION[$key]);
     }
 
-    public static function flash(string $key, mixed $value): void {
+    public static function flash(string $key, $value): void {
         $_SESSION['_flash'][$key] = $value;
     }
 
-    public static function getFlash(string $key): mixed {
+    public static function getFlash(string $key) {
         $value = $_SESSION['_flash'][$key] ?? null;
         unset($_SESSION['_flash'][$key]);
         return $value;

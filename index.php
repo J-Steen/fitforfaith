@@ -35,7 +35,7 @@ use App\Controllers\LangController;
 // On PHP built-in server, SCRIPT_NAME equals the request URI — not the script file.
 // In that case fall back to empty base path (app at root).
 $scriptName = $_SERVER['SCRIPT_NAME'] ?? '/index.php';
-if (!str_ends_with($scriptName, '.php')) {
+if (substr($scriptName, -4) !== '.php') {
     $scriptName = '/index.php';
 }
 $basePath = rtrim(dirname($scriptName), '/');

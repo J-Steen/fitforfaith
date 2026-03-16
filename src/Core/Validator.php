@@ -40,12 +40,12 @@ class Validator {
             if (!filter_var($strVal, FILTER_VALIDATE_EMAIL)) {
                 $this->addError($field, 'Please enter a valid email address.');
             }
-        } elseif (str_starts_with($rule, 'min:')) {
+        } elseif (strncmp($rule, 'min:', 4) === 0) {
             $min = (int)substr($rule, 4);
             if (mb_strlen($strVal) < $min) {
                 $this->addError($field, ucfirst(str_replace('_', ' ', $field)) . " must be at least $min characters.");
             }
-        } elseif (str_starts_with($rule, 'max:')) {
+        } elseif (strncmp($rule, 'max:', 4) === 0) {
             $max = (int)substr($rule, 4);
             if (mb_strlen($strVal) > $max) {
                 $this->addError($field, ucfirst(str_replace('_', ' ', $field)) . " must not exceed $max characters.");
@@ -58,12 +58,12 @@ class Validator {
             if (!ctype_digit($strVal)) {
                 $this->addError($field, ucfirst(str_replace('_', ' ', $field)) . ' must be a whole number.');
             }
-        } elseif (str_starts_with($rule, 'in:')) {
+        } elseif (strncmp($rule, 'in:', 3) === 0) {
             $allowed = explode(',', substr($rule, 3));
             if (!in_array($strVal, $allowed, true)) {
                 $this->addError($field, 'Invalid selection for ' . str_replace('_', ' ', $field) . '.');
             }
-        } elseif (str_starts_with($rule, 'regex:')) {
+        } elseif (strncmp($rule, 'regex:', 6) === 0) {
             $pattern = substr($rule, 6);
             if (!preg_match($pattern, $strVal)) {
                 $this->addError($field, ucfirst(str_replace('_', ' ', $field)) . ' format is invalid.');
@@ -73,7 +73,7 @@ class Validator {
             if ($strVal !== (string)($confirm ?? '')) {
                 $this->addError($field, ucfirst(str_replace('_', ' ', $field)) . ' confirmation does not match.');
             }
-        } elseif (str_starts_with($rule, 'unique:')) {
+        } elseif (strncmp($rule, 'unique:', 7) === 0) {
             // unique:table:column or unique:table:column:ignore_id
             $parts  = explode(':', substr($rule, 7));
             $table  = $parts[0];
