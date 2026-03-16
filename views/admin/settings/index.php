@@ -86,6 +86,16 @@
   </div>
 </form>
 
+<!-- Strava Webhook -->
+<div class="card mt-4" style="max-width:480px;">
+  <h3 class="fw-bold mb-2"><i class="fa-solid fa-bolt" style="color:#FC4C02;"></i> Strava Webhook</h3>
+  <p class="text-muted text-sm mb-4">Register this app with Strava so new activities sync automatically. Only needs to be done once.</p>
+  <form method="POST" action="<?= url('admin/strava-register-webhook') ?>">
+    <?= csrf_field() ?>
+    <button type="submit" class="btn btn-primary">Register Webhook with Strava</button>
+  </form>
+</div>
+
 <!-- Change Password -->
 <div class="card mt-4" style="max-width:480px;">
   <h3 class="fw-bold mb-4"><i class="fa-solid fa-lock" style="color:var(--accent-purple);"></i> Change Admin Password</h3>

@@ -74,4 +74,41 @@ class SettingsController {
         Session::flash('success', 'Password changed successfully.');
         redirect('admin/settings');
     }
+
+    public function registerStravaWebhook(array $params): void {
+        Auth::requireAdmin();
+
+        $callbackUrl = APP_URL . '/strava/webhook';
+        $ch = curl_init('https://www.strava.com/api/v3/push_subscriptions');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => http_build_query([
+                'client_id'     => STRAVA_CLIENT_ID,
+                'client_secret' => STRAVA_CLIENT_SECRET,
+                'callback_url'  => $callbackUrl,
+                'verify_token'  => STRAVA_VERIFY_TOKEN,
+            ]),
+            CURLOPT_TIMEOUT        => 15,
+            CURLOPT_SSL_VERIFYPEER => true,
+        ]);
+        $body = curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        $response = json_decode($body, true);
+
+        if ($code === 201 && isset($response['id'])) {
+            app_log('Strava webhook registered. Subscription ID: ' . $response['id']);
+            Session::flash('success', 'Strava webhook registered successfully! Subscription ID: ' . $response['id']);
+        } elseif ($code === 422 && strpos($body, 'already exists') !== false) {
+            Session::flash('info', 'Strava webhook is already registered for this callback URL.');
+        } else {
+            $msg = $response['message'] ?? $body;
+            app_log('Strava webhook registration failed: ' . $msg, 'ERROR');
+            Session::flash('error', 'Webhook registration failed: ' . $msg);
+        }
+
+        redirect('admin/settings');
+    }
 }

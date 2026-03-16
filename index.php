@@ -108,7 +108,8 @@ $router->post('/admin/churches/qr',         [ChurchesController::class, 'createQ
 
 $router->get('/admin/settings',         [SettingsController::class, 'index'],          ['admin']);
 $router->post('/admin/settings',        [SettingsController::class, 'update'],         ['admin']);
-$router->post('/admin/change-password', [SettingsController::class, 'changePassword'], ['admin']);
+$router->post('/admin/change-password',          [SettingsController::class, 'changePassword'],          ['admin']);
+$router->post('/admin/strava-register-webhook',  [SettingsController::class, 'registerStravaWebhook'],  ['admin']);
 
 $router->get('/admin/activities',            [ActivitiesController::class, 'index'],  ['admin']);
 $router->post('/admin/activities/:id/flag',   [ActivitiesController::class, 'flag'],   ['admin']);

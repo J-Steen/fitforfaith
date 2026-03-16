@@ -26,13 +26,13 @@
             <td class="fw-bold"><?= fmt_money($d['amount_cents']) ?></td>
             <td class="text-xs text-muted"><?= h($d['pf_payment_id'] ?? '—') ?></td>
             <td><?php
-              echo match($d['status']) {
-                'complete'  => '<span class="badge badge-green"><i class="fa-solid fa-check"></i> Complete</span>',
-                'pending'   => '<span class="badge badge-yellow">Pending</span>',
-                'failed'    => '<span class="badge badge-red">Failed</span>',
-                'cancelled' => '<span class="badge badge-gray">Cancelled</span>',
-                default     => h($d['status']),
-              };
+              switch ($d['status']) {
+                case 'complete':  echo '<span class="badge badge-green"><i class="fa-solid fa-check"></i> Complete</span>'; break;
+                case 'pending':   echo '<span class="badge badge-yellow">Pending</span>'; break;
+                case 'failed':    echo '<span class="badge badge-red">Failed</span>'; break;
+                case 'cancelled': echo '<span class="badge badge-gray">Cancelled</span>'; break;
+                default:          echo h($d['status']);
+              }
             ?></td>
             <td class="text-muted text-sm"><?= date('j M Y H:i', strtotime($d['created_at'])) ?></td>
           </tr>
