@@ -5,6 +5,7 @@ Options -Indexes
 Options -MultiViews
 
 RewriteEngine On
+RewriteBase /fit/
 
 # --- Security headers ---
 <IfModule mod_headers.c>
