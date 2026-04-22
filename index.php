@@ -30,6 +30,7 @@ use App\Controllers\Admin\SettingsController;
 use App\Controllers\Admin\ActivitiesController;
 use App\Controllers\Admin\DonationsController;
 use App\Controllers\LangController;
+use App\Controllers\ContactController;
 
 // Detect base path (useful if app is in a subdirectory).
 // On PHP built-in server, SCRIPT_NAME equals the request URI — not the script file.
@@ -47,6 +48,10 @@ $router->get('/lang/:locale', [LangController::class, 'set']);
 // ── Public routes ──────────────────────────────────────────────
 $router->get('/',            [HomeController::class, 'index']);
 $router->get('/leaderboard', [LeaderboardController::class, 'index']);
+
+// ── Contact / Support ──────────────────────────────────────
+$router->get('/contact',  [ContactController::class, 'show']);
+$router->post('/contact', [ContactController::class, 'submit']);
 
 // ── Auth routes ────────────────────────────────────────────────
 $router->get('/register',             [AuthController::class, 'showRegister']);

@@ -17,6 +17,7 @@
         <a href="<?= url('dashboard') ?>" class="btn btn-primary btn-lg"><?= t('home.my_dashboard') ?></a>
         <a href="<?= url('leaderboard') ?>" class="btn btn-secondary btn-lg"><?= t('home.leaderboard') ?></a>
       <?php endif; ?>
+      <a href="<?= url('contact') ?>" class="btn btn-secondary btn-lg"><i class="fa-solid fa-headset"></i> <?= t('footer.contact') ?></a>
     </div>
   </div>
 </section>

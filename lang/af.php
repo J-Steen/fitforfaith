@@ -13,6 +13,22 @@ return [
     'footer.home'        => 'Tuis',
     'footer.leaderboard' => 'Ranglys',
     'footer.register'    => 'Registreer',
+    'footer.contact'     => 'Kontak / Ondersteuning',
+
+    // ── Contact / Support ─────────────────────────────────────
+    'contact.title'        => 'Kontak & Ondersteuning',
+    'contact.subtitle'     => 'Benodig hulp? Vul die vorm in en ons sal jou kontak.',
+    'contact.field_name'   => 'Jou Naam',
+    'contact.field_email'  => 'Jou E-posadres',
+    'contact.field_subject'=> 'Onderwerp',
+    'contact.field_message'=> 'Boodskap',
+    'contact.submit'       => 'Stuur Boodskap',
+    'contact.success'      => 'Jou boodskap is gestuur. Ons sal jou gou kontak!',
+    'contact.fail'         => 'Jammer, ons kon nie jou boodskap stuur nie. Probeer asseblief later weer.',
+    'contact.err_name'     => 'Voer asseblief jou naam in.',
+    'contact.err_email'    => 'Voer asseblief \'n geldige e-posadres in.',
+    'contact.err_subject'  => 'Voer asseblief \'n onderwerp in.',
+    'contact.err_message'  => 'Boodskap moet ten minste 10 karakters wees.',
 
     // ── Auth — Login ──────────────────────────────────────────
     'login.title'        => 'Welkom terug',

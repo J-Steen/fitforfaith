@@ -13,6 +13,22 @@ return [
     'footer.home'        => 'Home',
     'footer.leaderboard' => 'Leaderboard',
     'footer.register'    => 'Register',
+    'footer.contact'     => 'Contact / Support',
+
+    // ── Contact / Support ─────────────────────────────────────
+    'contact.title'        => 'Contact & Support',
+    'contact.subtitle'     => 'Need help? Fill in the form below and we\'ll get back to you.',
+    'contact.field_name'   => 'Your Name',
+    'contact.field_email'  => 'Your Email Address',
+    'contact.field_subject'=> 'Subject',
+    'contact.field_message'=> 'Message',
+    'contact.submit'       => 'Send Message',
+    'contact.success'      => 'Your message has been sent. We\'ll be in touch soon!',
+    'contact.fail'         => 'Sorry, we could not send your message. Please try again later.',
+    'contact.err_name'     => 'Please enter your name.',
+    'contact.err_email'    => 'Please enter a valid email address.',
+    'contact.err_subject'  => 'Please enter a subject.',
+    'contact.err_message'  => 'Message must be at least 10 characters.',
 
     // ── Auth — Login ──────────────────────────────────────────
     'login.title'        => 'Welcome back',

@@ -183,6 +183,27 @@ class MailService {
 
     // ── Email templates ───────────────────────────────────────
 
+    public static function sendSupportRequest(
+        string $to,
+        string $senderName,
+        string $senderEmail,
+        string $subject,
+        string $message
+    ): bool {
+        $safeMessage = nl2br(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
+        $html = self::wrapTemplate("
+            <h2 style='color:#8b5cf6;'>Support Request — " . APP_NAME . "</h2>
+            <p><strong>From:</strong> " . htmlspecialchars($senderName, ENT_QUOTES, 'UTF-8') . "
+               &lt;" . htmlspecialchars($senderEmail, ENT_QUOTES, 'UTF-8') . "&gt;</p>
+            <p><strong>Subject:</strong> " . htmlspecialchars($subject, ENT_QUOTES, 'UTF-8') . "</p>
+            <hr style='border:none;border-top:1px solid rgba(255,255,255,.1);margin:20px 0;'>
+            <p>{$safeMessage}</p>
+            <hr style='border:none;border-top:1px solid rgba(255,255,255,.1);margin:20px 0;'>
+            <p style='color:#888;font-size:.875rem;'>Reply directly to this email to respond to the user.</p>
+        ");
+        return self::send($to, APP_NAME . ' Support: ' . $subject, $html);
+    }
+
     public static function sendPasswordReset(string $to, string $firstName, string $resetUrl): bool {
         $subject = APP_NAME . ' — Password Reset';
         $html    = self::wrapTemplate("
